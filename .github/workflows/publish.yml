@@ -1,0 +1,157 @@
+name: Build, Test, and Release Astra
+
+# Trigger workflow when pull requests into main are closed (merged)
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  # ---------------------------
+  # Job 1: Build and Prepare Release Artifacts
+  # ---------------------------
+  release-build:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.get_bumped_version.outputs.new_version }}
+
+    steps:
+      # Step 1: Checkout code
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full commit history is available
+
+      # Step 2: Install Python dependencies required for bumping version
+      - name: Install bump script dependencies
+        run: pip install toml
+
+      # Step 3: Bump version in pyproject.toml (pre-release increment)
+      - name: Bump version
+        run: python bump_version.py prerelease
+
+      # Step 4: Capture new version for later usage
+      - name: Get bumped version
+        id: get_bumped_version
+        run: |
+          NEW_VERSION=$(grep '^version =' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      # Step 5: Commit and push version bump (only if changes exist)
+      - name: Commit bumped version
+        run: |
+          git config --global user.email "sourabhk0703@gmail.com"
+          git config --global user.name "Sourabh Kumar"
+          git add pyproject.toml
+          if ! git diff-index --quiet HEAD; then
+            NEW_VERSION=$(grep '^version =' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+            git commit -m "Bump version to $NEW_VERSION"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      # Step 6: Setup Conda environment for controlled Python dependencies
+      - name: Setup Conda Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          activate-environment: astra-release
+          channels: conda-forge
+
+      # Step 7: Build release distributions using Poetry
+      - name: Build release distributions
+        shell: bash -l {0}
+        run: |
+          # Activate Conda environment
+          eval "$(conda shell.bash hook)"
+          conda activate astra-release
+          # Install Poetry
+          conda install -c conda-forge poetry -y
+          poetry --version
+          # Build distributions (sdist + wheel)
+          poetry build
+
+      # Step 8: Upload artifacts for subsequent jobs
+      - name: Upload release distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+  # ---------------------------
+  # Job 2: Publish to PyPI and Create GitHub Release
+  # ---------------------------
+  pypi-docker-publish:
+    runs-on: ubuntu-latest
+    environment: astra
+    needs: release-build
+    permissions:
+      id-token: write     # Required for OIDC-based PyPI publishing
+      contents: write     # Required for creating GitHub release
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Step 2: Setup Conda environment
+      - name: Setup Conda Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.11
+          activate-environment: astra-release
+          channels: conda-forge
+
+      # Step 3: Install Poetry
+      - name: Install Poetry
+        run: conda install -c conda-forge poetry -y
+
+      # Step 4: Install toml for bump scripts (redundant but ensures availability)
+      - name: Install bump script dependencies
+        run: pip install toml
+
+      # Step 5: Retrieve build artifacts from previous job
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+      # Step 6: Publish distributions to PyPI (only if PR is merged)
+      - name: Publish to PyPI
+        if: github.event.pull_request.merged == true
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      # Step 7: Create GitHub release with changelog
+      - name: Create GitHub Release
+        if: github.event.pull_request.merged == true
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.release-build.outputs.new_version }}
+          release_name: Release ${{ needs.release-build.outputs.new_version }}
+          draft: false
+          prerelease: false
+          body: |
+            ## Release Notes
+            - Improvements in image editing features (cursor accuracy, blur adjustments)
+            - Enhanced AI model integration for penetration testing
+            - Bug fixes and performance optimizations
+            - New Docker publishing pipeline
+
+      # Step 8: Upload built artifacts as release assets
+      - name: Upload Release Assets
+        if: github.event.pull_request.merged == true
+        run: |
+          for asset in dist/*; do
+            gh release upload ${{ needs.release-build.outputs.new_version }} "$asset"
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
