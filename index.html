@@ -1,126 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Astra – AI-Powered Penetration Testing Assistant</title>
-    <meta
-      name="description"
-      content="Astra is an advanced, open-source AI penetration testing assistant integrating state-of-the-art AI models into your CLI. Designed for cybersecurity professionals, ethical hackers, and developers, Astra automates vulnerability assessments and enhances workflows with real-time insights and automated note-taking."
-    />
-    <meta
-      name="keywords"
-      content="Astra, AI penetration testing, cybersecurity tools, ethical hacking, vulnerability scanning, open-source"
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="images/astra-logo.png" />
-    <link rel="apple-touch-icon" href="images/astra-logo.png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html { scroll-behavior: smooth; }
-      body { font-family: 'Roboto', sans-serif; background-color: #0d0d0d; color: #dcdcdc; line-height: 1.6; }
-      a { text-decoration: none; color: inherit; }
-      header { background-color: #101010; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
-      .logo img { height: 50px; transition: transform 0.3s ease; }
-      .logo img:hover { transform: scale(1.1) rotate(-5deg); filter: drop-shadow(0 0 5px #00f0ff); }
-      nav ul { list-style: none; display: flex; gap: 1.5rem; }
-      nav a { color: #dcdcdc; font-weight: 500; transition: color 0.3s; }
-      nav a:hover { color: #00f0ff; text-shadow: 0 0 5px #00f0ff; }
-      .hero { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, #101010, #0d0d0d); }
-      .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #fff; }
-      .typing { display: inline-block; border-right: 3px solid #00f0ff; white-space: nowrap; overflow: hidden; animation: typing 3s steps(30, end), blink 0.7s infinite; font-size: 1.2rem; color: #00f0ff; margin-bottom: 2rem; }
-      @keyframes typing { from { width: 0; } to { width: 100%; } }
-      @keyframes blink { 50% { border-color: transparent; } }
-      main { padding: 2rem; max-width: 900px; margin: 0 auto; }
-      section { margin-bottom: 3rem; }
-      section h2 { font-size: 2rem; margin-bottom: 1rem; border-bottom: 2px solid #fff; display: inline-block; padding-bottom: 0.3rem; }
-      pre { background-color: #1a1a1a; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-bottom: 1rem; color: #00f0ff; }
-      footer { background-color: #101010; text-align: center; padding: 1rem; font-size: 0.9rem; border-top: 1px solid #222; }
-      footer a { color: #00f0ff; }
-      @media (max-width: 768px) { .hero h1 { font-size: 2rem; } nav ul { flex-direction: column; gap: 1rem; } }
-    </style>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="logo">
-        <a href="#overview"><img src="images/astra-logo.png" alt="Astra Logo" /></a>
-      </div>
-      <nav aria-label="Main Navigation">
-        <ul>
-          <li><a href="#overview">Overview</a></li>
-          <li><a href="#installation">Installation</a></li>
-          <li><a href="#running">Running</a></li>
-          <li><a href="#features">Key Features</a></li>
-          <li><a href="#support">Support</a></li>
-        </ul>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astra – AI-Powered Penetration Testing Assistant</title>
 
-    <!-- Hero Section -->
-    <section class="hero" id="overview">
-      <h1>Astra – AI-Powered Penetration Testing Assistant</h1>
-      <div class="typing">> Empowering Ethical Hackers with AI</div>
-      <img src="images/astra-logo.png" alt="Astra CLI Interface" style="max-width:200px; margin-top:20px;" />
-      <p>
-        Astra is an advanced, open-source tool that revolutionizes penetration testing by integrating state-of-the-art AI models into your command-line interface. Designed for cybersecurity professionals, ethical hackers, and developers, Astra automates vulnerability assessments and enhances security workflows with real-time insights and automated note-taking.
-      </p>
-      <p>
-        Combining AI-driven testing with open-source cybersecurity tools, Astra empowers teams to perform comprehensive vulnerability assessments and uncover hidden threats faster than ever before.
-      </p>
+  <!-- Basic SEO -->
+  <meta name="description" content="Astra is an advanced AI-powered penetration testing tool that integrates state-of-the-art AI models into your command-line interface. Designed for cybersecurity professionals, ethical hackers, and developers, Astra automates vulnerability assessments and enhances workflows with real-time insights and automated note-taking." />
+  <meta name="keywords" content="Astra, AI penetration testing, cybersecurity, ethical hacking, vulnerability scanning, open-source tools" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Astra – AI-Powered Penetration Testing Assistant" />
+  <meta property="og:description" content="Automate vulnerability assessments with Astra, an open-source AI tool for ethical hackers and cybersecurity teams." />
+  <meta property="og:image" content="https://your-domain.com/images/astra-logo.png" />
+  <meta property="og:url" content="https://your-domain.com/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Astra – AI-Powered Penetration Testing Assistant" />
+  <meta name="twitter:description" content="Automate vulnerability assessments with Astra, an open-source AI tool for ethical hackers and cybersecurity teams." />
+  <meta name="twitter:image" content="https://your-domain.com/images/astra-logo.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Astra – AI-Powered Penetration Testing Assistant",
+    "description": "Astra is an AI-powered open-source penetration testing tool designed for cybersecurity professionals, ethical hackers, and developers. It automates vulnerability assessments and provides real-time insights.",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Linux, Windows, macOS",
+    "url": "https://github.com/sourabhk00/astra",
+    "image": "https://your-domain.com/images/astra-logo.png",
+    "author": {
+      "@type": "Person",
+      "name": "Sourabh Kumar"
+    },
+    "softwareVersion": "1.0",
+    "license": "https://opensource.org/licenses/MIT"
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="images/astra-logo.png" />
+  <link rel="apple-touch-icon" href="images/astra-logo.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Reset & Base */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Roboto', sans-serif; background-color: #0d0d0d; color: #dcdcdc; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Header */
+    header { background-color: #101010; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+    .logo img { height: 50px; transition: transform 0.3s ease; }
+    .logo img:hover { transform: scale(1.1) rotate(-5deg); filter: drop-shadow(0 0 5px #00f0ff); }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav a { color: #dcdcdc; font-weight: 500; transition: color 0.3s; }
+    nav a:hover { color: #00f0ff; text-shadow: 0 0 5px #00f0ff; }
+
+    /* Hero Section */
+    .hero { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, #101010, #0d0d0d); }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #fff; }
+    .hero p { font-size: 1.125rem; max-width: 800px; margin: 0 auto 2rem; }
+    .typing { display: inline-block; border-right: 3px solid #00f0ff; white-space: nowrap; overflow: hidden; animation: typing 3s steps(30, end), blink 0.7s infinite; font-size: 1.2rem; color: #00f0ff; margin-bottom: 2rem; }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    /* Main */
+    main { padding: 2rem; max-width: 900px; margin: 0 auto; }
+    section { margin-bottom: 3rem; }
+    section h2 { font-size: 2rem; margin-bottom: 1rem; border-bottom: 2px solid #fff; display: inline-block; padding-bottom: 0.3rem; }
+    section h3 { font-size: 1.5rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #fff; }
+    pre { background-color: #1a1a1a; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-bottom: 1rem; color: #00f0ff; }
+
+    /* Footer */
+    footer { background-color: #101010; text-align: center; padding: 1rem; font-size: 0.9rem; border-top: 1px solid #222; }
+    footer a { color: #00f0ff; }
+
+    /* Responsive */
+    @media (max-width: 768px) { .hero h1 { font-size: 2rem; } nav ul { flex-direction: column; gap: 1rem; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="#overview"><img src="images/astra-logo.png" alt="Astra Logo" /></a>
+    </div>
+    <nav aria-label="Main Navigation">
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#running">Running</a></li>
+        <li><a href="#features">Key Features</a></li>
+        <li><a href="#support">Support</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="overview">
+    <h1>Astra – AI-Powered Penetration Testing Assistant</h1>
+    <div class="typing">> Empowering Ethical Hackers with AI</div>
+    <img src="images/astra-logo.png" alt="Astra CLI Interface" style="max-width:200px; margin-top:20px;" />
+    <p>
+      Astra is an advanced, open-source tool that revolutionizes penetration testing by integrating state-of-the-art AI models into your command-line interface. Designed for cybersecurity professionals, ethical hackers, and developers, Astra automates vulnerability assessments and enhances security workflows with real-time insights and automated note-taking.
+    </p>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Installation -->
+    <section id="installation">
+      <h2>Installation</h2>
+      <ul>
+        <li>Python 3.11 or higher</li>
+        <li>8GB+ GPU Memory (tested on 12GB)</li>
+      </ul>
+      <pre><code>python -m pip install astra-ai --upgrade</code></pre>
     </section>
 
-    <main>
-      <!-- Installation Section -->
-      <section id="installation">
-        <h2>Installation</h2>
-        <p><strong>System Requirements:</strong></p>
-        <ul>
-          <li>At least 8GB of GPU memory (tested with 12GB)</li>
-          <li>Python 3.11 or higher</li>
-        </ul>
-        <p><strong>Installation Command:</strong></p>
-        <pre><code>python -m pip install astra-ai --upgrade</code></pre>
-      </section>
+    <!-- Running -->
+    <section id="running">
+      <h2>Running Astra</h2>
+      <ol>
+        <li>Create a free <a href="https://huggingface.co" target="_blank">Hugging Face Account</a> and generate an API token.</li>
+        <li>Export token: <pre><code>export HF_TOKEN=YourTokenHere</code></pre></li>
+        <li>Run Astra: <pre><code>astra</code></pre></li>
+      </ol>
+    </section>
 
-      <!-- Running Section -->
-      <section id="running">
-        <h2>Running Astra</h2>
-        <p><strong>Important:</strong> On your first run, you’ll be prompted to select a cache directory where Astra will download your chosen AI model. Follow these steps:</p>
-        <ol>
-          <li>Create a free <a href="https://huggingface.co/" target="_blank" rel="noopener">Hugging Face Account</a> and generate an access token.</li>
-          <li>Export your token to the CLI:<pre><code>export HF_TOKEN=YourTokenHere</code></pre></li>
-          <li>Launch Astra and monitor the download progress:<pre><code>astra</code></pre></li>
-        </ol>
-        <h3>Interacting with the Models</h3>
-        <p>Begin your input with a <code>!</code> (e.g., <code>! write a python script to scan open ports</code>).</p>
-      </section>
+    <!-- Features -->
+    <section id="features">
+      <h2>Key Features</h2>
+      <ul>
+        <li>AI-driven vulnerability detection</li>
+        <li>Real-time insights & recommendations</li>
+        <li>Automated note-taking with command logging</li>
+        <li>Integration with popular pentesting tools</li>
+      </ul>
+    </section>
 
-      <!-- Features Section -->
-      <section id="features">
-        <h2>Key Features</h2>
-        <ul>
-          <li><strong>AI-Powered Internet Search:</strong> Real-time cybersecurity insights from the web.</li>
-          <li><strong>AI-Assisted Note-Taking:</strong> Automatically record and categorize security findings.</li>
-          <li><strong>Real-Time AI-Driven Insights:</strong> Get suggestions for exploiting vulnerabilities.</li>
-          <li><strong>Enhanced Tool Integration:</strong> Import data from external tools seamlessly.</li>
-        </ul>
-      </section>
+    <!-- Support -->
+    <section id="support">
+      <h2>Support</h2>
+      <p>Need help? Visit <a href="https://github.com/sourabhk00/astra" target="_blank">GitHub Issues</a> or check the documentation.</p>
+    </section>
+  </main>
 
-      <!-- Support Section -->
-      <section id="support">
-        <h2>Support</h2>
-        <p>Need help? Visit <a href="https://github.com/sourabhk00/astra" target="_blank">GitHub Issues</a> or check the documentation.</p>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2025 Astra Project. All rights reserved.</p>
-      <p>Follow us on <a href="https://github.com/sourabhk00/astra" target="_blank">GitHub</a></p>
-    </footer>
-  </body>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Astra Project. All rights reserved.</p>
+    <p>
+      Follow us on 
+      <a href="https://github.com/sourabhk00/astra" target="_blank">GitHub</a>
+    </p>
+  </footer>
+</body>
 </html>
