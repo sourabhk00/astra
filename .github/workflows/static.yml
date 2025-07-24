@@ -1,0 +1,74 @@
+# =================================================================
+# Workflow: Deploy Static Content (Astra Project) to GitHub Pages
+# =================================================================
+# This workflow automatically deploys your Astra project's static content
+# (e.g., HTML, CSS, JS) to GitHub Pages whenever changes are pushed to `main`.
+# =================================================================
+
+name: Deploy static content to GitHub Pages
+
+on:
+  # Trigger deployment whenever a push occurs on the default branch (main)
+  push:
+    branches: ["main"]
+
+  # Allow manual deployment via the GitHub Actions tab
+  workflow_dispatch:
+
+# Permissions required for Pages deployment:
+# - contents: read (to read repository contents)
+# - pages: write (to publish to GitHub Pages)
+# - id-token: write (required for OpenID Connect authentication)
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Ensure only one deployment runs at a time (avoid race conditions).
+# In-progress deployments will not be cancelled but queued ones are skipped.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # -------------------------
+  # Job: Deploy to GitHub Pages
+  # -------------------------
+  deploy:
+    # Environment for Pages deployment
+    environment:
+      name: github-pages
+      # Automatically link deployment URL in the Actions UI
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest  # Use the latest stable Ubuntu runner
+
+    steps:
+      # Step 1: Checkout source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup GitHub Pages
+      # Configures the environment for deployment (authentication, URL, etc.)
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # Step 3: Build or prepare content (optional)
+      # NOTE: If you have a static site generator (e.g., React, Vue, Astro),
+      # add build steps here (npm install && npm run build).
+      # For a simple static site (HTML/CSS/JS), this step can be skipped.
+
+      # Step 4: Upload site artifact
+      # Uploads the built content (or full repo) to be deployed.
+      - name: Upload artifact for deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Path to the folder to deploy (default is entire repository)
+          # Change this to `./dist` or `./build` if you have a build folder
+          path: '.'
+
+      # Step 5: Deploy to GitHub Pages
+      # Publishes the uploaded artifact to the `gh-pages` branch
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
