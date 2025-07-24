@@ -1,0 +1,74 @@
+[build-system]
+requires = [ "poetry-core>=1.0.0",]
+build-backend = "poetry.core.masonry.api"
+include = [ "src/astra/images/*", "src/astra/Images_readme/*", "src/astra/command_search_index/*", "src/astra/config/*",]
+
+[tool.poetry]
+name = "astra-ai"
+version = "1.0.0"
+description = "AI-Powered Ethical Hacking Assistant"
+readme = "README.md"
+authors = [ "Sourabh Kumar <sourabhk0703@gmail.com>",]
+license = "BSD-2-Clause"
+homepage = "https://github.com/sourabhk00/astra"
+keywords = [ "AI", "ethical hacking", "nmap", "zap", "penetration testing",]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+]
+include = [ "src/astra/images/*",]
+
+[[tool.poetry.packages]]
+include = "astra"
+from = "src"
+
+[tool.poetry.scripts]
+astra = "astra.astra:main"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<=3.13.3"
+Cython = "*"
+IPython = "*"
+PyQt6 = "*"
+boto3 = "*"
+opencv-python = "*"
+Faker = "*"
+numpy = "*"
+prompt_toolkit = "*"
+psutil = "*"
+Pygments = "*"
+requests = "*"
+tiktoken = "*"
+torch = "*"
+transformers = "*"
+websockets = "*"
+Whoosh = "*"
+fastapi = "*"
+uvicorn = "*"
+pydantic = "*"
+langchain = "*"
+regex = "*"
+typing-extensions = "*"
+langchain-community = "0.3.16"
+langchain-core = "*"
+accelerate = "*"
+bitsandbytes = "*"
+duckduckgo-search = "*"
+toml = "*"
+setuptools = "*"
+langchain-experimental = "*"
+ollama = "*"
+langchain_ollama = "*"
+langchain_openai = "*"
+langchain-huggingface = "*"
+sentence-transformers = "*"
+chromadb = "*"
+langchain_chroma = "*"
+unstructured = "*"
+jq = "*"
+qdarkstyle = "*"
+
+[tool.poetry.extras]
+flash = [ "flash-attn",]
